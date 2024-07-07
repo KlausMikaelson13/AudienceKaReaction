@@ -79,10 +79,22 @@
         background-color: transparent; /* Set content background color */
         padding: 20px;
     }
+    video#bg-video {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        z-index: -1000;
+        object-fit: cover;
+    }
 </style>
 </head>
 <body>
-    <iframe width="560" height="315" src="https://www.youtube.com/embed/OaH_OLfjOjI?si=S0GQ8bWAjJgUIlxK" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+    <video autoplay loop muted id="bg-video">
+        <source src="https://www.youtube.com/embed/OaH_OLfjOjI?si=S0GQ8bWAjJgUIlxK" type="video/mp4">
+        Your browser does not support the video tag.
+    </video>
     <div class="content">
         <div class="container">
             <img src="logo.png" alt="Website Logo" class="logo">
