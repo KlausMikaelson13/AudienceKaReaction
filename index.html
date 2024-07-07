@@ -11,10 +11,14 @@
         text-align: center;
         margin: 0;
         padding: 0;
+        background-image: url('websitebackground.jpg');
+        background-size: cover;
+        background-position: center;
+        background-attachment: fixed; /* Keeps the background fixed while scrolling */
     }
     .container {
         position: relative;
-        z-index: 1; /* Ensure content appears above video */
+        z-index: 1; /* Ensure content appears above background */
         margin-top: 50px;
         background-color: rgba(255, 255, 255, 0.8);
         padding: 20px;
@@ -86,17 +90,13 @@
     }
     .content {
         position: relative;
-        z-index: 2; /* Ensure content appears above video */
-        background-color: transparent; /* Set content background color */
+        z-index: 2; /* Ensure content appears above background */
+        background-color: rgba(255, 255, 255, 0.8); /* Set content background color */
         padding: 20px;
     }
 </style>
 </head>
 <body>
-    <video autoplay loop muted id="bg-video">
-        <source src="websiteintro.mp4" type="video/mp4">
-        Your browser does not support the video tag.
-    </video>
     <div class="content">
         <div class="container">
             <img src="logo.png" alt="Website Logo" class="logo">
