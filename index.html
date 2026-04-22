@@ -1,169 +1,122 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Audience Ka Reaction</title>
-<style>
+  <meta charset="UTF-8">
+  <title>Welcome to My Theatre</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <style>
     body {
-        font-family: 'Arial', sans-serif;
-        font-size: 16px;
-        text-align: center;
-        margin: 0;
-        padding: 0;
-        background-color: #f9f9f9; /* YouTube's light grey background */
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background: black;
+      color: white;
+      overflow: hidden;
     }
+
     .container {
-        position: relative;
-        z-index: 1; /* Ensure content appears above video */
-        margin-top: 50px;
-        background-color: white;
-        padding: 20px;
-        border-radius: 10px;
-        display: inline-block;
-        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1); /* Light shadow for elevation */
+      height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
     }
-    .logo {
-        width: 150px; /* Smaller logo size */
-        height: auto;
-        margin-top: 20px;
+
+    h1 {
+      font-size: 40px;
+      color: red;
+      text-shadow: 0 0 20px red;
+      margin-bottom: 20px;
     }
-    .buttons {
-        margin-top: 20px;
+
+    .doors {
+      position: relative;
+      width: 300px;
+      height: 300px;
+      display: flex;
     }
-    .social-button {
-        display: inline-block;
-        padding: 10px 20px;
-        color: white;
-        border-radius: 5px;
-        text-decoration: none;
-        font-size: 14px;
-        transition: background-color 0.3s;
-        margin: 0 5px;
+
+    .door {
+      width: 50%;
+      height: 100%;
+      background: linear-gradient(to bottom, #300, #700);
+      border: 2px solid #111;
+      transition: 1s;
     }
-    .instagram-button {
-        background-color: #E1306C;
+
+    .left {
+      transform-origin: left;
     }
-    .instagram-button:hover {
-        background-color: #C13584;
+
+    .right {
+      transform-origin: right;
     }
-    .telegram-button {
-        background-color: #0088cc;
+
+    .open .left {
+      transform: rotateY(-90deg);
     }
-    .telegram-button:hover {
-        background-color: #007ab6;
+
+    .open .right {
+      transform: rotateY(90deg);
     }
-    .subscribe-button {
-        background-color: #FF0000; /* YouTube red */
+
+    button {
+      margin-top: 30px;
+      padding: 12px 25px;
+      font-size: 18px;
+      background: red;
+      border: none;
+      border-radius: 8px;
+      color: white;
+      cursor: pointer;
     }
-    .subscribe-button:hover {
-        background-color: #CC0000;
+
+    button:hover {
+      background: darkred;
     }
-    .amazon-button {
-        background-color: #FF9900; /* Amazon button color */
+
+    .glow {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      background: radial-gradient(circle, rgba(255,255,255,0.2), transparent);
+      opacity: 0;
+      transition: 1s;
     }
-    .amazon-button:hover {
-        background-color: #FF6600;
+
+    .open .glow {
+      opacity: 1;
     }
-    .headline {
-        margin-top: 20px;
-        font-size: 18px;
-        font-weight: bold;
-        color: #333;
-    }
-    .videos-section {
-        margin-top: 30px;
-        padding: 20px;
-        background-color: white;
-        border-radius: 10px;
-        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1); /* Similar to YouTube's content cards */
-    }
-    .video-container {
-        text-align: center;
-    }
-    .video-embed {
-        width: 100%;
-        max-width: 800px;
-        margin: 0 auto;
-    }
-    video#bg-video {
-        position: fixed;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        z-index: -1000;
-        object-fit: cover;
-    }
-    .content {
-        position: relative;
-        z-index: 2;
-        background-color: transparent;
-        padding: 20px;
-    }
-    .about-us {
-        margin-top: 20px;
-        padding: 20px;
-        background-color: white;
-        border-radius: 10px;
-        text-align: left;
-        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    }
-    .visitor-counter {
-        margin-top: 20px;
-        font-size: 16px;
-    }
-</style>
+
+  </style>
 </head>
+
 <body>
-    <audio autoplay loop>
-        <source src="websitebgaudio.mp3" type="audio/mp3">
-        Your browser does not support the audio element.
-    </audio>
-    <video autoplay loop muted id="bg-video">
-        <source src="websiteintro.mp4" type="video/mp4">
-    </video>
-    <div class="content">
-        <div class="container">
-            <img src="logo.png" alt="Website Logo" class="logo">
-            <div class="buttons">
-                <a href="https://www.instagram.com/audiencekareaction/" class="social-button instagram-button" target="_blank">Follow us on Instagram</a>
-                <a href="https://t.me/Audiencekareaction" class="social-button telegram-button" target="_blank">Join us on Telegram</a>
-                <a href="https://www.youtube.com/channel/UCpILIuRYxmBdUYhcC0ZefMQ" class="social-button subscribe-button" target="_blank">Subscribe on YouTube</a>
-                <a href="https://amzn.to/4cQ5Ix9" class="social-button amazon-button" target="_blank">Visit our Amazon Store</a>
-            </div>
-            <div class="headline">
-                Get A Chance To Win Movie Tickets<br>
-                If You Buy Any Product From Our Amazon Store
-            </div>
-            <div class="about-us">
-                <h2>About Us</h2>
-                <p>We're all about experiencing Cinema theatre to the fullest and capturing those amazing reactions that make the experience even better. From gut-busting comedies to heart-wrenching dramas, I love to see how audiences react and share that joy with everyone.</p>
-                <p>Whether it's the thrill of watching our favorite actors perform or the joy of experiencing a twist in the plot, those moments that make us jump out of our seats. If you're a fellow Cinephile, then you've come to the right place!</p>
-                <p>Our channel is the perfect place for Cinema lovers like you! We capture all the best moments and reaction shots from the audience, so you can relive the experience again and again. Don't miss out on all the fun - hit that <strong>SUBSCRIBE</strong> button and join the AKR community today!</p>
-            </div>
-            <div class="videos-section">
-                <h2>Latest Video</h2>
-                <div class="video-container">
-                    <!-- Replace the following iframe src with your actual YouTube video embed code -->
-                    <div class="video-embed">
-                        <iframe width="560" height="315" src="https://www.youtube.com/embed/xxg-35LjVEw?si=PD9VhsMNA9YlpGCS" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
-                    </div>
-                </div>
-            </div>
-            <div class="visitor-counter">
-                <!-- Hitwebcounter Code START -->
-                <a href="http://www.hitwebcounter.com" target="_blank">
-                <img src="http://hitwebcounter.com/counter/counter.php?page=8376514&style=0006&nbdigits=5&type=ip&initCount=0" title="web counter" Alt="web counter"   border="0" >
-                </a>
-                <br/>
-                <a href="http://www.hitwebcounter.com" title="HitWebCounter" 
-                target="_blank" style="font-family: Arial, sans-serif; 
-                font-size: 9px; color: #6A7175; text-decoration: none ;">                                   
-                </a>   
-                <!-- Hitwebcounter Code END -->
-            </div>
-        </div>
-    </div>
+
+<div class="container">
+
+  <h1>🎬 DIGITAL CINEMA</h1>
+
+  <div class="doors" id="doors">
+    <div class="door left"></div>
+    <div class="door right"></div>
+    <div class="glow"></div>
+  </div>
+
+  <button onclick="enterTheatre()">🎟️ Enter Theatre</button>
+
+</div>
+
+<script>
+function enterTheatre() {
+  const doors = document.getElementById("doors");
+  doors.classList.add("open");
+
+  setTimeout(() => {
+    window.location.href = "theatre.html"; // next page
+  }, 1200);
+}
+</script>
+
 </body>
 </html>
