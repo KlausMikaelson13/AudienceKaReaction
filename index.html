@@ -1,119 +1,212 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>Welcome to My Theatre</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta charset="UTF-8">
+<title>Cinema Entrance</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-  <style>
-    body {
-      margin: 0;
-      font-family: Arial, sans-serif;
-      background: black;
-      color: white;
-      overflow: hidden;
-    }
+<style>
+body {
+  margin: 0;
+  background: #1a1a1a;
+  font-family: Arial, sans-serif;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+}
 
-    .container {
-      height: 100vh;
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      align-items: center;
-    }
+/* Main Building */
+.cinema {
+  width: 700px;
+  background: #2c2c2c;
+  border: 5px solid #111;
+  box-shadow: 0 0 40px rgba(255,0,0,0.3);
+}
 
-    h1 {
-      font-size: 40px;
-      color: red;
-      text-shadow: 0 0 20px red;
-      margin-bottom: 20px;
-    }
+/* Marquee Board */
+.marquee {
+  background: #eee;
+  padding: 15px;
+  text-align: center;
+  border-bottom: 5px solid #111;
+}
 
-    .doors {
-      position: relative;
-      width: 300px;
-      height: 300px;
-      display: flex;
-    }
+.marquee h1 {
+  margin: 0;
+  font-size: 32px;
+  letter-spacing: 4px;
+}
 
-    .door {
-      width: 50%;
-      height: 100%;
-      background: linear-gradient(to bottom, #300, #700);
-      border: 2px solid #111;
-      transition: 1s;
-    }
+.marquee p {
+  margin: 5px 0;
+  font-size: 12px;
+}
 
-    .left {
-      transform-origin: left;
-    }
+/* Lights */
+.lights {
+  display: flex;
+  justify-content: center;
+  gap: 8px;
+  background: #000;
+  padding: 10px;
+}
 
-    .right {
-      transform-origin: right;
-    }
+.light {
+  width: 10px;
+  height: 10px;
+  background: yellow;
+  border-radius: 50%;
+  animation: blink 1s infinite alternate;
+}
 
-    .open .left {
-      transform: rotateY(-90deg);
-    }
+.light:nth-child(odd) {
+  animation-delay: 0.5s;
+}
 
-    .open .right {
-      transform: rotateY(90deg);
-    }
+@keyframes blink {
+  from { opacity: 0.3; }
+  to { opacity: 1; }
+}
 
-    button {
-      margin-top: 30px;
-      padding: 12px 25px;
-      font-size: 18px;
-      background: red;
-      border: none;
-      border-radius: 8px;
-      color: white;
-      cursor: pointer;
-    }
+/* Entrance Section */
+.entrance {
+  display: flex;
+  justify-content: space-between;
+  padding: 20px;
+}
 
-    button:hover {
-      background: darkred;
-    }
+/* Ticket Booth */
+.ticket {
+  width: 120px;
+  height: 120px;
+  background: #444;
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 2px solid #222;
+}
 
-    .glow {
-      position: absolute;
-      width: 100%;
-      height: 100%;
-      background: radial-gradient(circle, rgba(255,255,255,0.2), transparent);
-      opacity: 0;
-      transition: 1s;
-    }
+/* Posters */
+.posters {
+  width: 120px;
+  height: 120px;
+  background: #333;
+  border: 2px solid #222;
+  display: flex;
+  flex-wrap: wrap;
+}
 
-    .open .glow {
-      opacity: 1;
-    }
+.poster {
+  width: 50%;
+  height: 50%;
+  background: #555;
+}
 
-  </style>
+/* Curtains */
+.curtain-container {
+  position: relative;
+  width: 200px;
+  height: 150px;
+  background: black;
+  overflow: hidden;
+}
+
+.curtain {
+  position: absolute;
+  width: 50%;
+  height: 100%;
+  background: crimson;
+  transition: 1s;
+}
+
+.left {
+  left: 0;
+}
+
+.right {
+  right: 0;
+}
+
+.open .left {
+  transform: translateX(-100%);
+}
+
+.open .right {
+  transform: translateX(100%);
+}
+
+/* Enter Button */
+.enter-btn {
+  position: absolute;
+  bottom: 10px;
+  left: 50%;
+  transform: translateX(-50%);
+  padding: 8px 15px;
+  background: red;
+  border: none;
+  color: white;
+  cursor: pointer;
+  border-radius: 5px;
+}
+
+.enter-btn:hover {
+  background: darkred;
+}
+
+</style>
 </head>
 
 <body>
 
-<div class="container">
+<div class="cinema">
 
-  <h1>🎬 DIGITAL CINEMA</h1>
-
-  <div class="doors" id="doors">
-    <div class="door left"></div>
-    <div class="door right"></div>
-    <div class="glow"></div>
+  <!-- Marquee -->
+  <div class="marquee">
+    <h1>VALENTINO CINEMA</h1>
+    <p>FILM IS ABOUT TO START • SEE YOU AT THE MOVIES</p>
   </div>
 
-  <button onclick="enterTheatre()">🎟️ Enter Theatre</button>
+  <!-- Lights -->
+  <div class="lights">
+    <div class="light"></div>
+    <div class="light"></div>
+    <div class="light"></div>
+    <div class="light"></div>
+    <div class="light"></div>
+    <div class="light"></div>
+  </div>
+
+  <!-- Entrance -->
+  <div class="entrance">
+
+    <div class="ticket">🎟️ TICKETS</div>
+
+    <div class="curtain-container" id="curtainBox">
+      <div class="curtain left"></div>
+      <div class="curtain right"></div>
+      <button class="enter-btn" onclick="enter()">ENTER</button>
+    </div>
+
+    <div class="posters">
+      <div class="poster"></div>
+      <div class="poster"></div>
+      <div class="poster"></div>
+      <div class="poster"></div>
+    </div>
+
+  </div>
 
 </div>
 
 <script>
-function enterTheatre() {
-  const doors = document.getElementById("doors");
-  doors.classList.add("open");
+function enter() {
+  const curtain = document.getElementById("curtainBox");
+  curtain.classList.add("open");
 
   setTimeout(() => {
-    window.location.href = "theatre.html"; // next page
+    window.location.href = "theatre.html";
   }, 1200);
 }
 </script>
