@@ -2,140 +2,193 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>3D Theatre Simulator</title>
+<title>CinemaVerse</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
 <style>
-  body { margin: 0; overflow: hidden; }
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+body {
+  font-family: Arial, sans-serif;
+  background: black;
+  color: white;
+  overflow-x: hidden;
+}
+
+/* HERO SECTION */
+.hero {
+  height: 100vh;
+  background: radial-gradient(circle at center, #111, #000 70%);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  position: relative;
+}
+
+/* FILM GRAIN EFFECT */
+.hero::after {
+  content: "";
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  background: url("https://www.transparenttextures.com/patterns/asfalt-light.png");
+  opacity: 0.2;
+}
+
+/* TITLE */
+.title {
+  font-size: 60px;
+  letter-spacing: 8px;
+  color: red;
+  text-shadow: 0 0 25px red;
+  z-index: 1;
+}
+
+/* TAGLINE */
+.tagline {
+  margin-top: 20px;
+  font-size: 18px;
+  opacity: 0.8;
+  z-index: 1;
+}
+
+/* CTA BUTTON */
+.enter-btn {
+  margin-top: 40px;
+  padding: 15px 30px;
+  font-size: 18px;
+  background: red;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  box-shadow: 0 0 20px rgba(255,0,0,0.6);
+  z-index: 1;
+  transition: 0.3s;
+}
+
+.enter-btn:hover {
+  background: darkred;
+  transform: scale(1.05);
+}
+
+/* SCROLL SECTION */
+.section {
+  padding: 60px 20px;
+  text-align: center;
+}
+
+.section h2 {
+  font-size: 32px;
+  margin-bottom: 30px;
+}
+
+/* CARDS */
+.cards {
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+  flex-wrap: wrap;
+}
+
+.card {
+  width: 250px;
+  background: #111;
+  border-radius: 10px;
+  overflow: hidden;
+  box-shadow: 0 0 20px rgba(255,0,0,0.3);
+  transition: 0.3s;
+}
+
+.card:hover {
+  transform: scale(1.05);
+}
+
+/* CARD IMAGE */
+.card-img {
+  height: 150px;
+  background: linear-gradient(45deg, #333, #555);
+}
+
+/* CARD CONTENT */
+.card-content {
+  padding: 15px;
+}
+
+.card-title {
+  font-size: 18px;
+  margin-bottom: 10px;
+}
+
+.card-desc {
+  font-size: 13px;
+  opacity: 0.7;
+}
+
+/* FOOTER */
+.footer {
+  text-align: center;
+  padding: 20px;
+  background: #111;
+  margin-top: 40px;
+  font-size: 14px;
+  opacity: 0.6;
+}
+
 </style>
 </head>
+
 <body>
 
-<script src="https://cdn.jsdelivr.net/npm/three@0.152.2/build/three.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/three@0.152.2/examples/js/controls/PointerLockControls.js"></script>
+<!-- HERO -->
+<div class="hero">
+  <div class="title">CINEMAVERSE</div>
+  <div class="tagline">Where Movies, Moments & Madness Come Alive 🎬</div>
+  <button class="enter-btn" onclick="enter()">🎟️ Enter Theatre</button>
+</div>
+
+<!-- SECTIONS -->
+<div class="section">
+  <h2>🔥 What’s Playing</h2>
+
+  <div class="cards">
+
+    <div class="card">
+      <div class="card-img"></div>
+      <div class="card-content">
+        <div class="card-title">🎬 Movie Reactions</div>
+        <div class="card-desc">Feel the crowd energy</div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-img"></div>
+      <div class="card-content">
+        <div class="card-title">🏏 Cricket Screenings</div>
+        <div class="card-desc">Stadium vibes at home</div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-img"></div>
+      <div class="card-content">
+        <div class="card-title">🔥 WWE Nights</div>
+        <div class="card-desc">Experience the chaos live</div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<div class="footer">
+  🍿 Built for Cinema Lovers | Experience > Watching
+</div>
 
 <script>
-let camera, scene, renderer, controls;
-let objects = [];
-let moveForward = false;
-let moveBackward = false;
-let moveLeft = false;
-let moveRight = false;
-let velocity = new THREE.Vector3();
-
-init();
-animate();
-
-function init() {
-  scene = new THREE.Scene();
-  scene.background = new THREE.Color(0x000000);
-
-  camera = new THREE.PerspectiveCamera(75, window.innerWidth/window.innerHeight, 1, 1000);
-
-  renderer = new THREE.WebGLRenderer();
-  renderer.setSize(window.innerWidth, window.innerHeight);
-  document.body.appendChild(renderer.domElement);
-
-  controls = new THREE.PointerLockControls(camera, document.body);
-
-  document.addEventListener("click", () => {
-    controls.lock();
-  });
-
-  scene.add(controls.getObject());
-
-  // LIGHT
-  const light = new THREE.HemisphereLight(0xffffff, 0x444444);
-  scene.add(light);
-
-  // FLOOR
-  const floor = new THREE.Mesh(
-    new THREE.PlaneGeometry(100, 100),
-    new THREE.MeshStandardMaterial({ color: 0x222222 })
-  );
-  floor.rotation.x = -Math.PI/2;
-  scene.add(floor);
-
-  // WALLS
-  const wallMaterial = new THREE.MeshStandardMaterial({ color: 0x555555 });
-
-  function createWall(x, z, w, h, d) {
-    const wall = new THREE.Mesh(
-      new THREE.BoxGeometry(w, h, d),
-      wallMaterial
-    );
-    wall.position.set(x, h/2, z);
-    scene.add(wall);
-    objects.push(wall);
-  }
-
-  // Room boundaries
-  createWall(0, -20, 40, 10, 1);
-  createWall(0, 20, 40, 10, 1);
-  createWall(-20, 0, 1, 10, 40);
-  createWall(20, 0, 1, 10, 40);
-
-  // Seats (collision objects)
-  const seatMat = new THREE.MeshStandardMaterial({ color: 0xff0000 });
-
-  for (let i = -10; i <= 10; i += 2) {
-    for (let j = -5; j <= 5; j += 2) {
-      const seat = new THREE.Mesh(
-        new THREE.BoxGeometry(1, 1, 1),
-        seatMat
-      );
-      seat.position.set(i, 0.5, j);
-      scene.add(seat);
-      objects.push(seat);
-    }
-  }
-
-  // SCREEN
-  const screen = new THREE.Mesh(
-    new THREE.BoxGeometry(10, 5, 0.5),
-    new THREE.MeshStandardMaterial({ color: 0xffffff })
-  );
-  screen.position.set(0, 4, -18);
-  scene.add(screen);
-
-  // CONTROLS
-  document.addEventListener("keydown", (e) => {
-    if (e.code === "KeyW") moveForward = true;
-    if (e.code === "KeyS") moveBackward = true;
-    if (e.code === "KeyA") moveLeft = true;
-    if (e.code === "KeyD") moveRight = true;
-  });
-
-  document.addEventListener("keyup", (e) => {
-    if (e.code === "KeyW") moveForward = false;
-    if (e.code === "KeyS") moveBackward = false;
-    if (e.code === "KeyA") moveLeft = false;
-    if (e.code === "KeyD") moveRight = false;
-  });
+function enter() {
+  window.location.href = "entrance.html"; // your entrance page
 }
-
-function animate() {
-  requestAnimationFrame(animate);
-
-  velocity.set(0,0,0);
-
-  if (moveForward) velocity.z -= 0.2;
-  if (moveBackward) velocity.z += 0.2;
-  if (moveLeft) velocity.x -= 0.2;
-  if (moveRight) velocity.x += 0.2;
-
-  // Collision check
-  let nextPosition = controls.getObject().position.clone().add(velocity);
-
-  for (let obj of objects) {
-    let distance = nextPosition.distanceTo(obj.position);
-    if (distance < 1.5) return; // stop movement
-  }
-
-  controls.moveRight(velocity.x);
-  controls.moveForward(velocity.z);
-
-  renderer.render(scene, camera);
-}
-
 </script>
 
 </body>
