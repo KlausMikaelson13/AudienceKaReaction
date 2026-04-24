@@ -26,7 +26,11 @@ body {
   text-align: center;
   position: relative;
 }
-
+<div class="projector">
+  <div class="reel reel-left"></div>
+  <div class="reel reel-right"></div>
+  <div class="beam"></div>
+</div>
 /* FILM GRAIN EFFECT */
 .hero::after {
   content: "";
@@ -135,7 +139,71 @@ body {
   font-size: 14px;
   opacity: 0.6;
 }
+/* PROJECTOR CONTAINER */
+.projector {
+  position: absolute;
+  top: 20%;
+  left: 10%;
+  width: 200px;
+  height: 120px;
+  z-index: 0;
+}
 
+/* REELS */
+.reel {
+  width: 60px;
+  height: 60px;
+  border: 5px solid #aaa;
+  border-radius: 50%;
+  position: absolute;
+  animation: spin 3s linear infinite;
+}
+
+.reel-left {
+  top: 0;
+  left: 0;
+}
+
+.reel-right {
+  top: 0;
+  left: 80px;
+}
+
+/* INNER HOLES */
+.reel::before {
+  content: "";
+  position: absolute;
+  width: 15px;
+  height: 15px;
+  background: #aaa;
+  border-radius: 50%;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+/* SPIN ANIMATION */
+@keyframes spin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+/* PROJECTOR LIGHT BEAM */
+.beam {
+  position: absolute;
+  top: 30px;
+  left: 140px;
+  width: 600px;
+  height: 100px;
+  background: linear-gradient(
+    to right,
+    rgba(255,255,255,0.3),
+    rgba(255,255,255,0)
+  );
+  transform: skewY(-10deg);
+  filter: blur(10px);
+  opacity: 0.5;
+}
 </style>
 </head>
 
