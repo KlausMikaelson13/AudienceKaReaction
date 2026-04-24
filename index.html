@@ -2,157 +2,183 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>Cinema Entrance</title>
+<title>Digital Cinema Entrance</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <style>
 body {
   margin: 0;
-  background: #1a1a1a;
-  font-family: Arial, sans-serif;
+  background: radial-gradient(circle at top, #111, #000);
+  font-family: 'Arial', sans-serif;
+  color: white;
+  overflow: hidden;
+}
+
+/* FULL CONTAINER */
+.wrapper {
+  width: 100%;
+  height: 100vh;
   display: flex;
+  flex-direction: column;
   justify-content: center;
   align-items: center;
-  height: 100vh;
 }
 
-/* Main Building */
+/* CINEMA BUILDING */
 .cinema {
-  width: 700px;
-  background: #2c2c2c;
-  border: 5px solid #111;
-  box-shadow: 0 0 40px rgba(255,0,0,0.3);
+  width: 90%;
+  max-width: 1000px;
+  background: #2b2b2b;
+  border-radius: 10px;
+  box-shadow: 0 0 60px rgba(255,0,0,0.4);
+  overflow: hidden;
+  transform: scale(1);
+  transition: transform 1.2s ease;
 }
 
-/* Marquee Board */
+/* ZOOM EFFECT */
+.zoom {
+  transform: scale(1.5);
+}
+
+/* MARQUEE */
 .marquee {
-  background: #eee;
-  padding: 15px;
+  background: #f5f5f5;
+  color: black;
   text-align: center;
-  border-bottom: 5px solid #111;
+  padding: 20px;
+  position: relative;
 }
 
 .marquee h1 {
   margin: 0;
-  font-size: 32px;
-  letter-spacing: 4px;
+  font-size: 42px;
+  letter-spacing: 6px;
 }
 
 .marquee p {
-  margin: 5px 0;
-  font-size: 12px;
+  margin-top: 10px;
+  font-size: 14px;
 }
 
-/* Lights */
+/* RUNNING LIGHTS */
 .lights {
   display: flex;
   justify-content: center;
-  gap: 8px;
-  background: #000;
-  padding: 10px;
+  gap: 10px;
+  background: black;
+  padding: 12px;
 }
 
 .light {
-  width: 10px;
-  height: 10px;
-  background: yellow;
+  width: 12px;
+  height: 12px;
+  background: gold;
   border-radius: 50%;
-  animation: blink 1s infinite alternate;
+  animation: glow 1s infinite alternate;
 }
 
 .light:nth-child(odd) {
   animation-delay: 0.5s;
 }
 
-@keyframes blink {
-  from { opacity: 0.3; }
-  to { opacity: 1; }
+@keyframes glow {
+  from { opacity: 0.3; transform: scale(0.8); }
+  to { opacity: 1; transform: scale(1.2); }
 }
 
-/* Entrance Section */
+/* MAIN ENTRANCE AREA */
 .entrance {
   display: flex;
   justify-content: space-between;
-  padding: 20px;
+  align-items: center;
+  padding: 40px;
 }
 
-/* Ticket Booth */
+/* TICKET BOOTH */
 .ticket {
-  width: 120px;
-  height: 120px;
-  background: #444;
-  color: white;
+  width: 150px;
+  height: 150px;
+  background: linear-gradient(#444, #222);
+  border-radius: 10px;
   display: flex;
   align-items: center;
   justify-content: center;
-  border: 2px solid #222;
+  font-weight: bold;
+  box-shadow: inset 0 0 10px black;
 }
 
-/* Posters */
+/* POSTERS */
 .posters {
-  width: 120px;
-  height: 120px;
-  background: #333;
-  border: 2px solid #222;
-  display: flex;
-  flex-wrap: wrap;
+  width: 150px;
+  height: 150px;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 5px;
 }
 
 .poster {
-  width: 50%;
-  height: 50%;
   background: #555;
+  border-radius: 5px;
+  transition: 0.3s;
 }
 
-/* Curtains */
-.curtain-container {
+.poster:hover {
+  transform: scale(1.1);
+  background: crimson;
+}
+
+/* CURTAIN AREA */
+.curtain-box {
   position: relative;
-  width: 200px;
-  height: 150px;
+  width: 300px;
+  height: 200px;
   background: black;
   overflow: hidden;
+  border-radius: 8px;
 }
 
+/* CURTAINS */
 .curtain {
   position: absolute;
   width: 50%;
   height: 100%;
-  background: crimson;
-  transition: 1s;
+  background: linear-gradient(crimson, darkred);
+  transition: 1.2s ease;
 }
 
-.left {
-  left: 0;
-}
+.left { left: 0; }
+.right { right: 0; }
 
-.right {
-  right: 0;
-}
+.open .left { transform: translateX(-100%); }
+.open .right { transform: translateX(100%); }
 
-.open .left {
-  transform: translateX(-100%);
-}
-
-.open .right {
-  transform: translateX(100%);
-}
-
-/* Enter Button */
+/* ENTER BUTTON */
 .enter-btn {
   position: absolute;
-  bottom: 10px;
+  bottom: 15px;
   left: 50%;
   transform: translateX(-50%);
-  padding: 8px 15px;
+  padding: 12px 20px;
+  font-size: 16px;
   background: red;
   border: none;
+  border-radius: 6px;
   color: white;
   cursor: pointer;
-  border-radius: 5px;
+  box-shadow: 0 0 15px rgba(255,0,0,0.6);
 }
 
 .enter-btn:hover {
   background: darkred;
+}
+
+/* FOOTER TEXT */
+.footer {
+  text-align: center;
+  margin-top: 20px;
+  font-size: 14px;
+  opacity: 0.7;
 }
 
 </style>
@@ -160,54 +186,65 @@ body {
 
 <body>
 
-<div class="cinema">
+<div class="wrapper">
 
-  <!-- Marquee -->
-  <div class="marquee">
-    <h1>VALENTINO CINEMA</h1>
-    <p>FILM IS ABOUT TO START • SEE YOU AT THE MOVIES</p>
-  </div>
+  <div class="cinema" id="cinema">
 
-  <!-- Lights -->
-  <div class="lights">
-    <div class="light"></div>
-    <div class="light"></div>
-    <div class="light"></div>
-    <div class="light"></div>
-    <div class="light"></div>
-    <div class="light"></div>
-  </div>
-
-  <!-- Entrance -->
-  <div class="entrance">
-
-    <div class="ticket">🎟️ TICKETS</div>
-
-    <div class="curtain-container" id="curtainBox">
-      <div class="curtain left"></div>
-      <div class="curtain right"></div>
-      <button class="enter-btn" onclick="enter()">ENTER</button>
+    <!-- MARQUEE -->
+    <div class="marquee">
+      <h1>VALENTINO CINEMA</h1>
+      <p>FILM IS ABOUT TO START • SEE YOU AT THE MOVIES</p>
     </div>
 
-    <div class="posters">
-      <div class="poster"></div>
-      <div class="poster"></div>
-      <div class="poster"></div>
-      <div class="poster"></div>
+    <!-- LIGHTS -->
+    <div class="lights">
+      <div class="light"></div>
+      <div class="light"></div>
+      <div class="light"></div>
+      <div class="light"></div>
+      <div class="light"></div>
+      <div class="light"></div>
+      <div class="light"></div>
+      <div class="light"></div>
+    </div>
+
+    <!-- ENTRANCE -->
+    <div class="entrance">
+
+      <div class="ticket">🎟️ TICKETS</div>
+
+      <div class="curtain-box" id="curtainBox">
+        <div class="curtain left"></div>
+        <div class="curtain right"></div>
+        <button class="enter-btn" onclick="enterTheatre()">ENTER</button>
+      </div>
+
+      <div class="posters">
+        <div class="poster"></div>
+        <div class="poster"></div>
+        <div class="poster"></div>
+        <div class="poster"></div>
+      </div>
+
     </div>
 
   </div>
+
+  <div class="footer">🍿 Experience the Cinema Like Never Before</div>
 
 </div>
 
 <script>
-function enter() {
+function enterTheatre() {
   const curtain = document.getElementById("curtainBox");
+  const cinema = document.getElementById("cinema");
+
   curtain.classList.add("open");
+  cinema.classList.add("zoom");
 
   setTimeout(() => {
     window.location.href = "theatre.html";
-  }, 1200);
+  }, 1500);
 }
 </script>
 
