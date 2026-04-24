@@ -2,250 +2,140 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>Digital Cinema Entrance</title>
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-
+<title>3D Theatre Simulator</title>
 <style>
-body {
-  margin: 0;
-  background: radial-gradient(circle at top, #111, #000);
-  font-family: 'Arial', sans-serif;
-  color: white;
-  overflow: hidden;
-}
-
-/* FULL CONTAINER */
-.wrapper {
-  width: 100%;
-  height: 100vh;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-}
-
-/* CINEMA BUILDING */
-.cinema {
-  width: 90%;
-  max-width: 1000px;
-  background: #2b2b2b;
-  border-radius: 10px;
-  box-shadow: 0 0 60px rgba(255,0,0,0.4);
-  overflow: hidden;
-  transform: scale(1);
-  transition: transform 1.2s ease;
-}
-
-/* ZOOM EFFECT */
-.zoom {
-  transform: scale(1.5);
-}
-
-/* MARQUEE */
-.marquee {
-  background: #f5f5f5;
-  color: black;
-  text-align: center;
-  padding: 20px;
-  position: relative;
-}
-
-.marquee h1 {
-  margin: 0;
-  font-size: 42px;
-  letter-spacing: 6px;
-}
-
-.marquee p {
-  margin-top: 10px;
-  font-size: 14px;
-}
-
-/* RUNNING LIGHTS */
-.lights {
-  display: flex;
-  justify-content: center;
-  gap: 10px;
-  background: black;
-  padding: 12px;
-}
-
-.light {
-  width: 12px;
-  height: 12px;
-  background: gold;
-  border-radius: 50%;
-  animation: glow 1s infinite alternate;
-}
-
-.light:nth-child(odd) {
-  animation-delay: 0.5s;
-}
-
-@keyframes glow {
-  from { opacity: 0.3; transform: scale(0.8); }
-  to { opacity: 1; transform: scale(1.2); }
-}
-
-/* MAIN ENTRANCE AREA */
-.entrance {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 40px;
-}
-
-/* TICKET BOOTH */
-.ticket {
-  width: 150px;
-  height: 150px;
-  background: linear-gradient(#444, #222);
-  border-radius: 10px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-weight: bold;
-  box-shadow: inset 0 0 10px black;
-}
-
-/* POSTERS */
-.posters {
-  width: 150px;
-  height: 150px;
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 5px;
-}
-
-.poster {
-  background: #555;
-  border-radius: 5px;
-  transition: 0.3s;
-}
-
-.poster:hover {
-  transform: scale(1.1);
-  background: crimson;
-}
-
-/* CURTAIN AREA */
-.curtain-box {
-  position: relative;
-  width: 300px;
-  height: 200px;
-  background: black;
-  overflow: hidden;
-  border-radius: 8px;
-}
-
-/* CURTAINS */
-.curtain {
-  position: absolute;
-  width: 50%;
-  height: 100%;
-  background: linear-gradient(crimson, darkred);
-  transition: 1.2s ease;
-}
-
-.left { left: 0; }
-.right { right: 0; }
-
-.open .left { transform: translateX(-100%); }
-.open .right { transform: translateX(100%); }
-
-/* ENTER BUTTON */
-.enter-btn {
-  position: absolute;
-  bottom: 15px;
-  left: 50%;
-  transform: translateX(-50%);
-  padding: 12px 20px;
-  font-size: 16px;
-  background: red;
-  border: none;
-  border-radius: 6px;
-  color: white;
-  cursor: pointer;
-  box-shadow: 0 0 15px rgba(255,0,0,0.6);
-}
-
-.enter-btn:hover {
-  background: darkred;
-}
-
-/* FOOTER TEXT */
-.footer {
-  text-align: center;
-  margin-top: 20px;
-  font-size: 14px;
-  opacity: 0.7;
-}
-
+  body { margin: 0; overflow: hidden; }
 </style>
 </head>
-
 <body>
 
-<div class="wrapper">
-
-  <div class="cinema" id="cinema">
-
-    <!-- MARQUEE -->
-    <div class="marquee">
-      <h1>VALENTINO CINEMA</h1>
-      <p>FILM IS ABOUT TO START • SEE YOU AT THE MOVIES</p>
-    </div>
-
-    <!-- LIGHTS -->
-    <div class="lights">
-      <div class="light"></div>
-      <div class="light"></div>
-      <div class="light"></div>
-      <div class="light"></div>
-      <div class="light"></div>
-      <div class="light"></div>
-      <div class="light"></div>
-      <div class="light"></div>
-    </div>
-
-    <!-- ENTRANCE -->
-    <div class="entrance">
-
-      <div class="ticket">🎟️ TICKETS</div>
-
-      <div class="curtain-box" id="curtainBox">
-        <div class="curtain left"></div>
-        <div class="curtain right"></div>
-        <button class="enter-btn" onclick="enterTheatre()">ENTER</button>
-      </div>
-
-      <div class="posters">
-        <div class="poster"></div>
-        <div class="poster"></div>
-        <div class="poster"></div>
-        <div class="poster"></div>
-      </div>
-
-    </div>
-
-  </div>
-
-  <div class="footer">🍿 Experience the Cinema Like Never Before</div>
-
-</div>
+<script src="https://cdn.jsdelivr.net/npm/three@0.152.2/build/three.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/three@0.152.2/examples/js/controls/PointerLockControls.js"></script>
 
 <script>
-function enterTheatre() {
-  const curtain = document.getElementById("curtainBox");
-  const cinema = document.getElementById("cinema");
+let camera, scene, renderer, controls;
+let objects = [];
+let moveForward = false;
+let moveBackward = false;
+let moveLeft = false;
+let moveRight = false;
+let velocity = new THREE.Vector3();
 
-  curtain.classList.add("open");
-  cinema.classList.add("zoom");
+init();
+animate();
 
-  setTimeout(() => {
-    window.location.href = "theatre.html";
-  }, 1500);
+function init() {
+  scene = new THREE.Scene();
+  scene.background = new THREE.Color(0x000000);
+
+  camera = new THREE.PerspectiveCamera(75, window.innerWidth/window.innerHeight, 1, 1000);
+
+  renderer = new THREE.WebGLRenderer();
+  renderer.setSize(window.innerWidth, window.innerHeight);
+  document.body.appendChild(renderer.domElement);
+
+  controls = new THREE.PointerLockControls(camera, document.body);
+
+  document.addEventListener("click", () => {
+    controls.lock();
+  });
+
+  scene.add(controls.getObject());
+
+  // LIGHT
+  const light = new THREE.HemisphereLight(0xffffff, 0x444444);
+  scene.add(light);
+
+  // FLOOR
+  const floor = new THREE.Mesh(
+    new THREE.PlaneGeometry(100, 100),
+    new THREE.MeshStandardMaterial({ color: 0x222222 })
+  );
+  floor.rotation.x = -Math.PI/2;
+  scene.add(floor);
+
+  // WALLS
+  const wallMaterial = new THREE.MeshStandardMaterial({ color: 0x555555 });
+
+  function createWall(x, z, w, h, d) {
+    const wall = new THREE.Mesh(
+      new THREE.BoxGeometry(w, h, d),
+      wallMaterial
+    );
+    wall.position.set(x, h/2, z);
+    scene.add(wall);
+    objects.push(wall);
+  }
+
+  // Room boundaries
+  createWall(0, -20, 40, 10, 1);
+  createWall(0, 20, 40, 10, 1);
+  createWall(-20, 0, 1, 10, 40);
+  createWall(20, 0, 1, 10, 40);
+
+  // Seats (collision objects)
+  const seatMat = new THREE.MeshStandardMaterial({ color: 0xff0000 });
+
+  for (let i = -10; i <= 10; i += 2) {
+    for (let j = -5; j <= 5; j += 2) {
+      const seat = new THREE.Mesh(
+        new THREE.BoxGeometry(1, 1, 1),
+        seatMat
+      );
+      seat.position.set(i, 0.5, j);
+      scene.add(seat);
+      objects.push(seat);
+    }
+  }
+
+  // SCREEN
+  const screen = new THREE.Mesh(
+    new THREE.BoxGeometry(10, 5, 0.5),
+    new THREE.MeshStandardMaterial({ color: 0xffffff })
+  );
+  screen.position.set(0, 4, -18);
+  scene.add(screen);
+
+  // CONTROLS
+  document.addEventListener("keydown", (e) => {
+    if (e.code === "KeyW") moveForward = true;
+    if (e.code === "KeyS") moveBackward = true;
+    if (e.code === "KeyA") moveLeft = true;
+    if (e.code === "KeyD") moveRight = true;
+  });
+
+  document.addEventListener("keyup", (e) => {
+    if (e.code === "KeyW") moveForward = false;
+    if (e.code === "KeyS") moveBackward = false;
+    if (e.code === "KeyA") moveLeft = false;
+    if (e.code === "KeyD") moveRight = false;
+  });
 }
+
+function animate() {
+  requestAnimationFrame(animate);
+
+  velocity.set(0,0,0);
+
+  if (moveForward) velocity.z -= 0.2;
+  if (moveBackward) velocity.z += 0.2;
+  if (moveLeft) velocity.x -= 0.2;
+  if (moveRight) velocity.x += 0.2;
+
+  // Collision check
+  let nextPosition = controls.getObject().position.clone().add(velocity);
+
+  for (let obj of objects) {
+    let distance = nextPosition.distanceTo(obj.position);
+    if (distance < 1.5) return; // stop movement
+  }
+
+  controls.moveRight(velocity.x);
+  controls.moveForward(velocity.z);
+
+  renderer.render(scene, camera);
+}
+
 </script>
 
 </body>
